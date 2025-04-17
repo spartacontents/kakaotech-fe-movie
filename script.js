@@ -1,6 +1,17 @@
 const API_KEY = "발급한 API KEY를 입력하세요.";
 const BASE_URL = "https://api.themoviedb.org/3";
 
+function saveToBookmarks(movieId) {
+  const bookmarks = localStorage.getItem("bookmarks")
+    ? JSON.parse(localStorage.getItem("bookmarks"))
+    : [];
+
+  if (!bookmarks.includes(movieId)) {
+    bookmarks.push(movieId);
+    localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+  }
+}
+
 function showMovieDetails(movieId) {
   fetch(`${BASE_URL}/movie/${movieId}?api_key=${API_KEY}`)
     .then((res) => res.json())
@@ -12,6 +23,14 @@ function showMovieDetails(movieId) {
         <p>${res.overview}</p>
         <button id="close-btn">닫기</button>
       `;
+
+      const addBookmark = document.createElement("button");
+      addBookmark.innerText = "북마크 추가";
+      addBookmark.addEventListener("click", () => {
+        saveToBookmarks(movieId);
+      });
+      modal.appendChild(addBookmark);
+
       document.body.appendChild(modal);
       document.getElementById("close-btn").addEventListener("click", () => {
         modal.remove();

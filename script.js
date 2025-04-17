@@ -78,6 +78,29 @@ function searchMovies(keyword) {
     .catch((err) => console.error(err));
 }
 
+function fetchBookmarkedMovies() {
+  const bookmarkedMovies = [];
+  const bookmarks = localStorage.getItem("bookmarks")
+    ? JSON.parse(localStorage.getItem("bookmarks"))
+    : [];
+
+  if (bookmarks.length === 0) {
+    alert("북마크된 영화가 없어용");
+    return;
+  }
+
+  bookmarks.forEach((movieId) => {
+    fetch(`${BASE_URL}/movie/${moviedId}?api_key=${API_KEY}`)
+      .then((res) => res.json())
+      .then((res) => {
+        bookmarkedMovies.push(res);
+      })
+      .catch((err) => console.error(err));
+  });
+
+  displayMovies(bookmarkedMovies);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   fetchPopularMovies();
 
@@ -85,4 +108,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const keyword = document.getElementById("search-input").value;
     searchMovies(keyword);
   });
+
+  document
+    .getElementById("view-bookmarks")
+    .addEventListener("click", fetchBookmarkedMovies);
 });

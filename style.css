@@ -31,6 +31,7 @@ h1 {
   width: 300px;
   padding: 10px;
   font-size: 1rem;
+  border-radius: 5px;
   border: 1px solid #cccccc;
 }
 
@@ -42,4 +43,41 @@ h1 {
   color: white;
   cursor: pointer;
   border-radius: 5px;
+}
+
+#search-btn:hover {
+  background-color: #0056B3;
+}
+
+/* 영화 리스트 스타일 */
+#movie-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* 영화 카드 스타일 */
+.movie-card {
+  width: 200px;
+  border: 1px solid #DDDDDD;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.movie-card img {
+  width: 100%;
+  height: auto;
+}
+
+.movie-card h3 {
+  font-size: 1.2rem;
+  padding: 10px;
+}
+
+.movie-card p {
+  padding: 0 10px 10px;
+  color: #555555;
 }

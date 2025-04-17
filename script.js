@@ -60,13 +60,17 @@ function displayMovies(movies) {
   });
 }
 
-function fetchPopularMovies() {
-  fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}`)
-    .then((res) => res.json())
-    .then((res) => {
-      displayMovies(res.results);
-    })
-    .catch((err) => console.error(err));
+async function fetchPopularMovies() {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/movie/popular?api_key=${API_KEY}`
+    );
+    const data = await response.json();
+
+    displayMovies(data);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 function searchMovies(keyword) {
@@ -78,7 +82,7 @@ function searchMovies(keyword) {
     .catch((err) => console.error(err));
 }
 
-function fetchBookmarkedMovies() {
+async function fetchBookmarkedMovies() {
   const bookmarkedMovies = [];
   const bookmarks = localStorage.getItem("bookmarks")
     ? JSON.parse(localStorage.getItem("bookmarks"))
@@ -89,14 +93,22 @@ function fetchBookmarkedMovies() {
     return;
   }
 
-  bookmarks.forEach((movieId) => {
-    fetch(`${BASE_URL}/movie/${moviedId}?api_key=${API_KEY}`)
-      .then((res) => res.json())
-      .then((res) => {
-        bookmarkedMovies.push(res);
-      })
-      .catch((err) => console.error(err));
-  });
+  // bookmarks.forEach((movieId) => {
+  //   fetch(`${BASE_URL}/movie/${movieId}?api_key=${API_KEY}`)
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       bookmarkedMovies.push(res);
+  //     })
+  //     .catch((err) => console.error(err));
+  // });
+
+  for (const movieId of bookmarks) {
+    const response = await fetch(
+      `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}`
+    );
+    const movie = await response.json();
+    bookmarkedMovies.push(movie);
+  }
 
   displayMovies(bookmarkedMovies);
 }
